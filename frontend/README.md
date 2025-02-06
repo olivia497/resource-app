@@ -8,6 +8,7 @@
 
 
 # Frontend
+- `npm install`
 - `npm install axios`
 - `npm run dev`
 - cd into the frontend and run command `npm install react-router-dom`
