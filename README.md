@@ -4,6 +4,7 @@
 - `npm install dotenv`
 - `npm install express`
 - `npm install cors`
+- `npm install bycrypt`
 - to run server use `npm node server.js`
 
 
