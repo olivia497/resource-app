@@ -37,7 +37,7 @@ resourceRoutes.route("/resources").post(async (request, response) => {
     brand: request.body.brand,
     createdBy: request.body.createdBy
   }
-  let data = await db.collection("resources").insert.One(mongoObject)
+  let data = await db.collection("resources").insertOne(mongoObject)
   response.json(data)
 })
 
