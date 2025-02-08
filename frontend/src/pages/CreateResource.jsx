@@ -3,7 +3,7 @@ import { createResource } from "../api"
 
 export function CreateResource(){
   const[name, setName] = useState("")
-  const[type, setType] = useState("")
+  const[type, setType] = useState("Clothing")
   const[description, setDescription] = useState("")
 
   async function handleSubmit(){
@@ -20,11 +20,25 @@ export function CreateResource(){
   return (
     <>
       <form onSubmit={handleSubmit}>
+        <h2>Add A Resource</h2>
         <label>Resource Name:</label>
         <input onChange={(e) => setName(e.target.value)} required name="name"/>
-        <label>Resource Type:</label>
-        <input onChange={(e) => setType(e.target.value)}required name="type"/>
-        <label>Resource Description:</label>
+        <div>
+        <label>Type:</label>
+          <select
+            id="type"
+            name="type"
+            required
+            value={type}
+            onChange={(e) => setType(e.target.value)}>
+              <option value="Clothing">Clothing</option>
+              <option value="Part-Time">Furniture</option>
+              <option value="Medical Equipment">Medical Equipment</option>
+              <option value="Home Goods">Home Goods</option>
+          </select>
+        </div>
+
+        <label>Description:</label>
         <textarea onChange={(e) => setDescription(e.target.value)} required name="description"/>
         <button type="submit">Submit</button>
       </form>
