@@ -7,6 +7,8 @@
 - `npm install bycrypt`
 - to run server use `npm node server.js`
 
+Authentication-With-Token
+- `npm install jsonwebtoken`
 
 # Frontend
 - `npm install`

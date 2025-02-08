@@ -2,6 +2,8 @@ const express = require("express")
 const database = require("./connect.js")
 const ObjectId = require("mongodb").ObjectId
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+require("dotenv").config({path: "./config.env"})
 
 let userRoutes = express.Router()
 const SALT_ROUNDS = 6
@@ -86,7 +88,8 @@ userRoutes.route("/users/login").post(async (request, response) => {
   if(user){
     let confirmation = await bcrypt.compare(request.body.password, user.password)
     if(confirmation){ //If user is found 
-      response.json({success: true, user})
+      const token = jwt.sign(user, process.env.SECRET_KEY, {expiresIn: "1h"}) //create token and encodes user data into the token, allows us to save stored user information
+      response.json({success: true, token})
     }else{
       response.json({success:false, message: "Incorrect Password"})
     }
