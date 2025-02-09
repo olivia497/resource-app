@@ -8,8 +8,17 @@ import { Landing } from './pages/Landing'
 import { ResourceIndex } from './pages/ResourceIndex'
 import { ViewResource } from './pages/ViewResource'
 import { Layout } from './components/Layout'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 function App() {
+
+  useEffect(() => {
+    let token = sessionStorage.getItem("User")
+    if(token){
+      axios.default.headers.common["Authorization"] = `Bearer ${token}`
+    }
+  }, [])
 
   return (
     <Router>

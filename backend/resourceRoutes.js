@@ -1,6 +1,8 @@
 const express = require("express")
 const database = require("./connect.js")
 const ObjectId = require("mongodb").ObjectId
+const jwt = require("jsonwebtoken")
+require("dotenv").config({path: "./config.env"})
 
 let resourceRoutes = express.Router()
 
@@ -28,7 +30,7 @@ resourceRoutes.route("/resources/:id").get(async (request, response) => {
 })
 
 //Create a new resource
-resourceRoutes.route("/resources").post(async (request, response) => {
+resourceRoutes.route("/resources").post(verifyToken, async (request, response) => {
   let db = database.getDb()
   let mongoObject = {
     name: request.body.name,
@@ -42,7 +44,7 @@ resourceRoutes.route("/resources").post(async (request, response) => {
 })
 
 //Updating one
-resourceRoutes.route("/resources/:id").put(async (request, response) => {
+resourceRoutes.route("/resources/:id").put(verifyToken, async (request, response) => {
   let db = database.getDb()
   let mongoObject = {
     $set: {
@@ -58,10 +60,29 @@ resourceRoutes.route("/resources/:id").put(async (request, response) => {
 })
 
 //Delete one resource
-resourceRoutes.route("/resources/:id").delete(async (request, response) => {
+resourceRoutes.route("/resources/:id").delete(verifyToken, async (request, response) => {
   let db = database.getDb()
   let data = await db.collection("resources").deleteOne({_id: new ObjectId(request.params.id)})
   response.json(data)
 })
+
+function verifyToken(request, response, next){ //3rd argument next tells the function we are okay to proceed to the next step
+  const authHeaders = request.headers["authorization"]
+  //splitting token from Bearer 
+  const token = authHeaders && authHeaders.split(' ')[1]
+  if(!token){
+    return response.status(401).json({message: "Authentication token is missing"})
+  }
+
+  jwt.verify(token, process.env.SECRET_KEY, (error, user) => {
+    if(error){
+      return response.status(403).json({message: "Invalid Token"})
+    }
+
+    request.body.user = user //if token validation goes through then we add user to request body incase we want to use it
+    next() //telling express to go to backend routes
+  } 
+  )
+}
 
 module.exports = resourceRoutes

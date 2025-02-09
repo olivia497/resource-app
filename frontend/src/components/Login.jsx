@@ -1,6 +1,7 @@
 import { verifyUser } from "../api"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import axios from "axios" //library used to call in backend routes
 
 export function Login(){
 
@@ -21,6 +22,9 @@ export function Login(){
     if(response){
       navigate("/home")
       sessionStorage.setItem("User", response)
+
+      //making an authorization field as default, "Bearer" is formatting
+      axios.defaults.headers.common["Authorization"] = `Bearer ${response}`
     }else {
       alert ("Login Failed")
     }
