@@ -5,7 +5,7 @@ const ObjectId = require("mongodb").ObjectId
 let resourceRoutes = express.Router()
 
 //Retrieve All
-//creates route at http://localhost:3000/recources
+//creates route at http://localhost:2121/recources
 resourceRoutes.route("/resources").get(async (request, response) => {
   let db = database.getDb()
   let data = await db.collection("resources").find({}).toArray()
@@ -18,14 +18,19 @@ resourceRoutes.route("/resources").get(async (request, response) => {
 
 //Retrieve One
 resourceRoutes.route("/resources/:id").get(async (request, response) => {
-  let db = database.getDb()
-  let data = await db.collection("resources").findOne({_id: new ObjectId(request.params.id)})
-  if (Object.keys(data).length > 0){
-    response.json(data)
-  }else{
-    throw new Error("No data found")
+  let id = request.params.id;
+  if (!ObjectId.isValid(id)) {
+    return response.status(400).json({ error: "Invalid ObjectId" });
   }
-})
+  let db = database.getDb();
+  let data = await db.collection("resources").findOne({_id: new ObjectId(id)});
+  if (data) {
+    response.json(data);
+  } else {
+    response.status(404).json({ error: "Resource not found" });
+  }
+});
+
 
 //Create a new resource
 resourceRoutes.route("/resources").post(async (request, response) => {
