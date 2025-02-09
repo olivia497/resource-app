@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     let token = sessionStorage.getItem("User")
     if(token){
-      axios.default.headers.common["Authorization"] = `Bearer ${token}`
+      axios.defaults.headers.common["authorization"] = `Bearer ${token}`
     }
   }, [])
 

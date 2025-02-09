@@ -7,12 +7,12 @@ export function ResourceIndex(){
   const [resources, setResources] = useState([])
 
   useEffect(() => {
-    async function loadAllPosts(){
+    async function loadAllResources(){
       const data = await getResources()
       setResources(data)
     }
 
-    loadAllPosts()
+    loadAllResources()
   }, [])
 
   return (
