@@ -23,6 +23,8 @@ export function ViewResource(){
       <h1>{resource.name}</h1>
       <h2>{resource.type}</h2>
       <p>{resource.description}</p>
+      <button>Edit Resource</button>
+      <button>Delete Resource</button>
       <button onClick={() => navigate(-1)}>Back</button>
     </>
   )
