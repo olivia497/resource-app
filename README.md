@@ -11,8 +11,9 @@
 # Frontend
 - `npm install`
 - `npm install axios`
+- `npm install react-router-dom`
+- install tailwindcss 
 - `npm run dev`
-- cd into the frontend and run command `npm install react-router-dom`
 
 # React + Vite
 
