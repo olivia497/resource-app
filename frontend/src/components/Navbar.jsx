@@ -6,7 +6,6 @@ export function Navbar(){
     <div className="navbar bg-teal-700 border-b border-teal-500">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
-          {/* Center the pageData buttons */}
           <nav className="flex space-x-4 justify-center w-full">
       {pageData.map((page) => {
         return (
