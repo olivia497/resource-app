@@ -16,7 +16,7 @@ export function ViewResource(){
     }
 
     loadResource()
-  }, [])
+  }, [id])
 
   return (
     <>

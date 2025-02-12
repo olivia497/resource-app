@@ -4,11 +4,14 @@
 - `npm install dotenv`
 - `npm install express`
 - `npm install cors`
-- `npm install bycrypt`
+- `npm install bcrypt`
+- authentication-With-Token `npm install jsonwebtoken`
 - to run server use `npm node server.js`
 
-Authentication-With-Token
-- `npm install jsonwebtoken`
+- Create a .env file in config folder and add the following as key = value
+  - MONGODB_URI = your database URI
+  - SECRET_KEY = your secret key here
+
 
 # Frontend
 - `npm install`

@@ -1,5 +1,7 @@
 import { createUser } from "../api"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 export function CreateUser(){
 
@@ -10,15 +12,28 @@ export function CreateUser(){
 
   })
 
+  const navigate = useNavigate()
+
   function handleChange(e){
     setUser({...user, [e.target.name]: e.target.value})
   }
 
-  async function handleSubmit(e){
+  async function handleSubmit(e) {
     e.preventDefault()
+  
+    // Log the user data before sending it to the backend
+    // console.log("Sending user data:", user)
+  
     let response = await createUser(user)
     console.log(response)
-    if(response.status !== 200){
+  
+    if(response){
+      navigate("/home")
+      sessionStorage.setItem("User", response)
+
+      //making an authorization field as default, "Bearer" is formatting
+      axios.defaults.headers.common["Authorization"] = `Bearer ${response}`
+    }else if (response.status !== 201) {
       alert("User account could not be created")
     }
   }

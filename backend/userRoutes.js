@@ -8,53 +8,45 @@ require("dotenv").config({path: "./config.env"})
 let userRoutes = express.Router()
 const SALT_ROUNDS = 6
 
-//Retrieve All
-userRoutes.route("/users").get(async (request, response) => {
-  let db = database.getDb()
-  let data = await db.collection("users").find({}).toArray()
-  if (data.length > 0){
-    response.json(data)
-  }else{
-    throw new Error("No data found")
-  }
-})
-
-//Retrieve One
-userRoutes.route("/users/:id").get(async (request, response) => {
-  let db = database.getDb()
-  let data = await db.collection("users").findOne({_id: new ObjectId(request.params.id)})
-  if (Object.keys(data).length > 0){
-    response.json(data)
-  }else{
-    throw new Error("No data found")
-  }
-})
 
 //Create a new user
 userRoutes.route("/users").post(async (request, response) => {
-  let db = database.getDb()
+  try {
+    let db = database.getDb()
+    const { userName, email, password } = request.body
 
-  console.log("Received user data:", request.body) //Debugging
+    // Log the received data
+    console.log("Received user data:", { userName, email, password })
 
-  //Confirm if email was already used 
-  const takenEmail = await db.collection("users").findOne({email: request.body.email})
-  
-  if(takenEmail){
-    response.json({message: "That email is taken"})
-  }else{
-     //Hash method from bcrypt to encrypt password
-  const hash = await bcrypt.hash(request.body.password, SALT_ROUNDS)
+    if (!userName || !email || !password) {
+      return response.status(400).json({ message: "Missing required fields" })
+    }
 
-  let mongoObject = {
-    userName: request.body.userName,
-    email: request.body.email, 
-    password: hash,
-    resourcesAddedByUser: []
-  }
-  let data = await db.collection("users").insertOne(mongoObject)
-  response.json(data)
+    // Confirm if email is already used
+    const takenEmail = await db.collection("users").findOne({ email })
+    if (takenEmail) {
+      return response.status(400).json({ message: "That email is already taken" })
+    }
+
+    // Hash the password and insert user data
+    const hash = await bcrypt.hash(password, SALT_ROUNDS)
+
+    let mongoObject = {
+      userName: request.body.userName,
+      email: request.body.email,
+      password: hash,
+      resourcesAddedByUser: []
+    }
+
+    let data = await db.collection("users").insertOne(mongoObject)
+    response.status(201).json(data)  // Send success response
+  } catch (error) {
+    console.error("Error creating user:", error)
+    response.status(500).json({ message: "Internal Server Error" })
   }
 })
+
+
 
 //Updating one
 userRoutes.route("/users/:id").put(async (request, response) => {
@@ -96,6 +88,12 @@ userRoutes.route("/users/login").post(async (request, response) => {
   }else{ //Email not found
     response.json({success: false, message: "User not found"})
   }
+})
+
+//Logout
+userRoutes.post('/logout', (request, response) => {
+  response.clearCookie('auth_token')
+  response.json({message: 'Logged out sucessfully'})
 })
 
 module.exports = userRoutes

@@ -11,7 +11,7 @@ export function Layout(){
     if(!user){
       navigate("/")
     }
-  }, [user])
+  }, [navigate, user])
 
   return(
     <>

@@ -7,7 +7,7 @@ require("dotenv").config({path: "./config.env"})
 let resourceRoutes = express.Router()
 
 //Retrieve All
-//creates route at http://localhost:3000/recources
+//creates route at http://localhost:2121/recources
 resourceRoutes.route("/resources").get(async (request, response) => {
   let db = database.getDb()
   let data = await db.collection("resources").find({}).toArray()
@@ -32,15 +32,33 @@ resourceRoutes.route("/resources/:id").get(async (request, response) => {
 //Create a new resource
 resourceRoutes.route("/resources").post(verifyToken, async (request, response) => {
   let db = database.getDb()
+
+  const userId = request.body.user._id
+
+  if (!ObjectId.isValid(userId)) {
+    return response.status(400).json({ message: "Invalid user ID" });
+  }
+
+   // Check if the user exists in the database
+   const user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
+   if (!user) {
+     return response.status(404).json({ message: "User not found" });
+   }
+
   let mongoObject = {
     name: request.body.name,
     type: request.body.type, 
     description: request.body.description,
     brand: request.body.brand,
-    createdBy: request.body.user._id
+    createdBy: new ObjectId(userId)
   }
-  let data = await db.collection("resources").insertOne(mongoObject)
-  response.json(data)
+
+  try{
+    let data = await db.collection("resources").insertOne(mongoObject)
+    response.json(data)
+  }catch (error){
+    response.status(500).json({message: "Failed to create resource", error: error.message})
+  }
 })
 
 //Updating one
@@ -66,7 +84,7 @@ resourceRoutes.route("/resources/:id").delete(verifyToken, async (request, respo
   response.json(data)
 })
 
-function verifyToken(request, response, next){ //3rd argument next tells the function we are okay to proceed to the next step
+function verifyToken(request, response, next){ 
   const authHeaders = request.headers["authorization"]
   //splitting token from Bearer 
   const token = authHeaders && authHeaders.split(' ')[1]

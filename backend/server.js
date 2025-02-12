@@ -1,4 +1,5 @@
-const connect = require("./connect")
+// const connect = require("./connect")
+const { connectToServer } = require("./connect")
 const express = require("express")
 const cors = require("cors")
 const resources = require("./resourceRoutes")
@@ -15,6 +16,8 @@ app.use(resources)
 app.use(users)
 
 app.listen(PORT, () => {
-  connect.connectToServer()
+  // connect.connectToServer()
   console.log(`Server is running on ${PORT}`)
 }) 
+
+connectToServer()
