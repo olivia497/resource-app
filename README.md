@@ -12,7 +12,7 @@
 - `npm install`
 - `npm install axios`
 - `npm install react-router-dom`
-- install tailwindcss 
+- install tailwindcss https://tailwindcss.com/docs/installation/using-vite
 - `npm run dev`
 
 # React + Vite
