@@ -1,35 +1,35 @@
-import { verifyUser } from "../api"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import axios from "axios" //library used to call in backend routes
+import { verifyUser } from "../api";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios"; //library used to call in backend routes
 
 export function Login(){
 
   const [user, setUser] = useState({
     email: "",
     password: ""
-  })
+  });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function handleChange(e){
     setUser({...user, [e.target.name]: e.target.value})
-  }
+  };
 
   async function handleSubmit(e){
-    e.preventDefault()
-    let response = await verifyUser(user)
+    e.preventDefault();
+    let response = await verifyUser(user);
     if(response){
-      navigate("/home")
-      sessionStorage.setItem("User", response)
+      navigate("/home");
+      sessionStorage.setItem("User", response);
 
       //making an authorization field as default, "Bearer" is formatting
-      axios.defaults.headers.common["Authorization"] = `Bearer ${response}`
+      axios.defaults.headers.common["Authorization"] = `Bearer ${response}`;
     }else {
-      alert ("Login Failed")
+      alert ("Login Failed");
     }
     
-  }
+  };
 
   return(
     <>
@@ -53,4 +53,4 @@ export function Login(){
       </form>
     </>
   )
-}
+};

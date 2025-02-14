@@ -1,44 +1,43 @@
-import { createUser } from "../api"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import axios from "axios"
+import { createUser } from "../api";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-export function CreateUser(){
+export function CreateUser() {
 
   const [user, setUser] = useState({
     userName: "",
     email: "",
     password: ""
+  });
 
-  })
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  function handleChange(e){
-    setUser({...user, [e.target.name]: e.target.value})
-  }
+  function handleChange(e) {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
   
     // Log the user data before sending it to the backend
-    // console.log("Sending user data:", user)
+    // console.log("Sending user data:", user);
   
-    let response = await createUser(user)
-    console.log(response)
+    let response = await createUser(user);
+    console.log(response);
   
-    if(response){
-      navigate("/home")
-      sessionStorage.setItem("User", response)
+    if (response) {
+      navigate("/home");
+      sessionStorage.setItem("User", response);
 
       //making an authorization field as default, "Bearer" is formatting
-      axios.defaults.headers.common["Authorization"] = `Bearer ${response}`
-    }else if (response.status !== 201) {
-      alert("User account could not be created")
+      axios.defaults.headers.common["Authorization"] = `Bearer ${response}`;
+    } else if (response.status !== 201) {
+      alert("User account could not be created");
     }
-  }
+  };
 
-  return(
+  return (
     <>
       <form onSubmit={handleSubmit}>
         <input 
@@ -65,5 +64,5 @@ export function CreateUser(){
         </button>
       </form>
     </>
-  )
-}
+  );
+};

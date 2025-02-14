@@ -1,21 +1,21 @@
-import { useState } from "react"
-import { createResource } from "../api"
+import { useState } from "react";
+import { createResource } from "../api";
 
 export function CreateResource(){
-  const[name, setName] = useState("")
-  const[type, setType] = useState("Clothing")
-  const[description, setDescription] = useState("")
+  const[name, setName] = useState("");
+  const[type, setType] = useState("Clothing");
+  const[description, setDescription] = useState("");
 
   async function handleSubmit(){
     let submitObject = {
       name: name,
       type: type,
       description: description
-    }
+    };
 
-    await createResource(submitObject)
+    await createResource(submitObject);
 
-  }
+  };
 
   return (
     <>
@@ -44,4 +44,4 @@ export function CreateResource(){
       </form>
     </>
   )
-}
+};

@@ -1,14 +1,14 @@
-import { Link, useNavigate } from "react-router-dom" //acts as a button to navigate between the routes we've made 
-import { pageData } from "./pageData"
+import { Link, useNavigate } from "react-router-dom"; //acts as a button to navigate between the routes we've made 
+import { pageData } from "./pageData";
 
 export function Navbar(){
   
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function handleLogout(){
-    sessionStorage.removeItem("User")
-    navigate("/")
-  }
+    sessionStorage.removeItem("User");
+    navigate("/");
+  };
 
   return(
     <div className="navbar">
@@ -26,4 +26,4 @@ export function Navbar(){
       <button onClick={handleLogout}>Logout</button>
     </div>
   )
-}
+};

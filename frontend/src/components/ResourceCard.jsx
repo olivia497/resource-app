@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 export function ResourceCard({resource}){
   return (
@@ -8,4 +8,4 @@ export function ResourceCard({resource}){
       <p>{resource.description}</p>
     </Link>
   )
-}
+};

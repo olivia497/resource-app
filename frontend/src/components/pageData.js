@@ -9,10 +9,10 @@ export const pageData = [
     name: "Create Resource", 
     path: "/createresource" 
   },
-  {
-    name: "View Resource", 
-    path: "/viewresource/1"  
-  },
+  // {
+  //   name: "View Resource", 
+  //   path: "/viewresource/1"  
+  // },
   {
     name: "Resource Index",
     path: "/resourceindex"

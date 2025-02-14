@@ -7,16 +7,22 @@ export function ViewResource(){
 
   let params = useParams()
   const navigate = useNavigate()
-  let id = params.id //this id variable is the id in the url
+  let id = params.id 
 
   useEffect(() => {
-    async function loadResource(){
-      let data = await getResource(id) //expecting the id to know what it's looking for
-      setResources(data)
+    async function loadResource() {
+      try {
+        let data = await getResource(id);
+        setResources(data); 
+      } catch (error) {
+        console.error("Error loading resource:", error); 
+        setResources(null); 
+      }
     }
-
-    loadResource()
-  }, [id])
+  
+    loadResource();
+  }, [id]);
+  
 
   return (
     <>
