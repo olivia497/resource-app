@@ -47,7 +47,7 @@ export function Login(){
           required
           type="password"
         />
-        <button type="submit">
+        <button type="submit" className="text-white text-center mx-auto px-6 py-2 mt-2 bg-teal-600 rounded-md hover:bg-teal-500 transition-colors w-max">
           Login
         </button>
       </form>

@@ -23,8 +23,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Landing />} />
         <Route element={<Layout />}>
+          <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route path="/createresource" element={<CreateResource />} />
           <Route path="/resourceindex" element={<ResourceIndex />} />
